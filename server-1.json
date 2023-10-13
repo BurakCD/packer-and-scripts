@@ -1,0 +1,31 @@
+{
+    "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Ubuntu_64",
+      "iso_url": "https://releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso",
+      "iso_checksum": "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd",
+      "ssh_username": "k8s",
+      "ssh_password": "Serv3r-1-k8s",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'k8s' | sudo -S shutdown -P now",
+      "vm_name": "server-1",
+      "disk_size": 20000,
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", 4096],
+        ["modifyvm", "{{.Name}}", "--cpus", 2]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "general.sh"
+    },
+    {
+      "type": "shell",
+      "script": "server-1.sh"
+    }
+  ]
+}
